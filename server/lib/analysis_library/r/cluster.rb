@@ -46,7 +46,7 @@ module AnalysisLibrary::R
       @r.converse "print('garbage collection')"
       @r.converse "print('Configuring R Cluster - Loading Libraries')"
       @r.converse 'temp <- gc()'
-      @r.converse 'print(paste('gc():',temp))'
+      @r.converse "print(paste('gc():',temp))"
       @r.converse 'library(parallel)'
       @r.converse 'library(R.utils)'
       @r.converse 'library(rjson)'
