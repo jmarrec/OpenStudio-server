@@ -43,7 +43,10 @@ module AnalysisLibrary::R
       @started = false
 
       # load the required libraries for cluster management
+      @r.converse "print('garbage collection')"
       @r.converse "print('Configuring R Cluster - Loading Libraries')"
+      @r.converse 'temp <- gc()'
+      @r.converse 'print(paste('gc():',temp))'
       @r.converse 'library(parallel)'
       @r.converse 'library(R.utils)'
       @r.converse 'library(rjson)'
@@ -82,6 +85,9 @@ module AnalysisLibrary::R
     def start(ip_addresses)
       @r.command(ips: ip_addresses.to_dataframe) do
         %{
+          print("garbage collection")
+          temp <- gc()
+          print(paste('gc():',temp))
           print("Starting cluster...")
           print(paste("Number of Workers:", nrow(ips)))
           if (nrow(ips) == 0) {
@@ -180,6 +186,9 @@ module AnalysisLibrary::R
               print("Stopping cluster...")
               stopCluster(cl)
               print("Cluster stopped")
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
             }
         end
       end

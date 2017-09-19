@@ -80,6 +80,9 @@ create_and_run_datapoint <- function(x){
   #if json$status is FALSE then datapoint status is false
   if (!isTRUE(json$status)) {
     print(paste("json$status is false, RETURNING: ",failed_f))
+    print("garbage collection")
+    temp <- gc()
+    print(paste('gc():',temp))
     options(warn=0)
     return(failed_f)
   } else {
@@ -173,6 +176,9 @@ create_and_run_datapoint <- function(x){
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
               options(warn=0)
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
           } else if (rails_exit_guideline_14 == 2) { 
@@ -189,6 +195,9 @@ create_and_run_datapoint <- function(x){
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
               options(warn=0)
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
           } else if (rails_exit_guideline_14 == 3) {
@@ -205,6 +214,9 @@ create_and_run_datapoint <- function(x){
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
               options(warn=0)
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
           }
@@ -213,6 +225,9 @@ create_and_run_datapoint <- function(x){
     }
   }
   options(warn=0)
+  print("garbage collection")
+  temp <- gc()
+  print(paste('gc():',temp))
   return(as.numeric(obj))
 }
 
