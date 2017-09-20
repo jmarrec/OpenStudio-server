@@ -85,7 +85,7 @@ module AnalysisLibrary::R
     def start(ip_addresses)
       @r.command(ips: ip_addresses.to_dataframe) do
         %{
-          print("garbage collection")
+          print("garbage collection start of cluster")
           temp <- gc()
           print(paste('gc():',temp))
           print("Starting cluster...")

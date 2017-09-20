@@ -269,6 +269,7 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
             r_scripts_path = "#{APP_CONFIG['r_scripts_path']}"
             rails_exit_guideline_14 = "#{@analysis.exit_on_guideline_14}"
             source(paste(r_scripts_path,'/rgenoud.R',sep=''))
+            print("finished rgenoud.R script")
           }
         end
 
@@ -287,9 +288,12 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
       @analysis.reload
       @analysis.save!
     ensure
+      logger.info("ensure block rgenoud.rb")
       # ensure that the cluster is stopped
       cluster.stop if cluster
-
+      logger.info("ensure block rgenoud.rb cluster stop")
+      dir_path = "#{APP_CONFIG['sim_root_path']}/analysis_#{@analysis.id}/*"
+      logger.info("Analysis Dir contents: #{Dir['#{dir_path}']}")
       # Post process the results and jam into the database
       best_result_json = "#{APP_CONFIG['sim_root_path']}/analysis_#{@analysis.id}/best_result.json"
       if File.exist? best_result_json

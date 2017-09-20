@@ -153,6 +153,7 @@ print(paste("whoami:", whoami))
 #Rlog[grep('vartypes:',Rlog)]
 #Rlog[grep('varnames:',Rlog)]
 #Rlog[grep('<=',Rlog)]
+print(paste("results:",results))
 print(paste("popsize:",results$pop.size))
 print(paste("peakgeneration:",results$peakgeneration))
 print(paste("generations:",results$generations))
@@ -165,11 +166,12 @@ save(results, file=results_filename)
 bestresults_filename <- paste(analysis_dir,'/best_result.json',sep='')
 if (!file.exists(bestresults_filename) && !is.null(results$par)) {
   #write final params to json file
+  print("writing best_result.json")
   answer <- paste('{',paste('"',gsub(".","|",varnames, fixed=TRUE),'"',': ',results$par,sep='', collapse=','),'}',sep='')
   write.table(answer, file=bestresults_filename, quote=FALSE,row.names=FALSE,col.names=FALSE)
   convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"false",sep='', collapse=','),'}',sep='')
   write(convergenceflag, file=paste(analysis_dir,"/convergence_flag.json",sep=''))
 }
-print("garbage collection")
+print("garbage collection end of rgenoud.R")
 temp <- gc()
 print(paste('gc():',temp))
