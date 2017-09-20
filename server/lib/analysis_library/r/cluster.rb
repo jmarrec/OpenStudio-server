@@ -161,7 +161,7 @@ module AnalysisLibrary::R
           # Check the length and the last result (which should be true)
           c = @r.converse('r')
           result = (c.size == uniq_ips[:worker_ips].size) && c.map { |i| i.last == 'true' }.all?
-        rescue => e
+        rescue ScriptError, NoMemoryError, SignalException, StandardError => e
           raise e
         ensure
           stop
@@ -182,29 +182,38 @@ module AnalysisLibrary::R
     end
 
     def stop
-      if @started
-        @r.command do
-          %{
-              print("Stopping cluster...")
-              print(paste("cl:",cl))
-              sc <- try(stopCluster(cl))
-              print(paste("class sc:",class(sc)))
-              print(paste("sc:",sc))
-              if (!exists("cl")) {
-                print(paste("cl exists:",cl))
-              }  else {
-                print("Cluster stopped")
-              }              
-              print("garbage collection end of cluster stop")
-              temp <- gc()
-              print(paste('gc():',temp))
-            }
+      begin
+        if @started
+          @r.command do
+            %{
+                print("Stopping cluster...")
+                print(paste("cl:",cl))
+                sc <- try(stopCluster(cl))
+                print(paste("class sc:",class(sc)))
+                print(paste("sc:",sc))
+                if (!exists("cl")) {
+                  print(paste("cl exists:",cl))
+                }  else {
+                  print("Cluster stopped")
+                }              
+                print("garbage collection end of cluster stop")
+                temp <- gc()
+                print(paste('gc():',temp))
+              }
+          end
         end
-      end
 
-      # TODO: how to test if it successfully stopped the cluster
-      @started = false
-      true
+        # TODO: how to test if it successfully stopped the cluster
+        @started = false
+        true
+      rescue ScriptError, NoMemoryError, SignalException, StandardError => e
+        log_message = "#{__FILE__} cluster.stop failed with #{e.message}, #{e.backtrace.join("\n")}"
+        logger.error log_message  
+      end  
+    end
+    
+    def logger
+      Rails.logger
     end
   end
 end

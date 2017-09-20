@@ -280,7 +280,7 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
         raise 'could not start the cluster (most likely timed out)'
       end
 
-    rescue => e
+    rescue ScriptError, NoMemoryError, SignalException, StandardError => e
       log_message = "#{__FILE__} failed with #{e.message}, #{e.backtrace.join("\n")}"
       logger.error log_message
       @analysis.status_message = log_message
