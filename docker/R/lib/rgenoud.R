@@ -98,8 +98,8 @@ print(paste("varDom:",varDom))
 
 print("setup gradient")
 gn <- f
-# clusterExport(cl,"gn")
-# clusterExport(cl,"varEps")
+clusterExport(cl,"gn")
+clusterExport(cl,"varEps")
 
 vectorGradient <- function(x, ...) { # Now use the cluster
   vectorgrad(func=gn, x=x, method="two", eps=varEps,cl=cl, debug=TRUE, ub=varMax, lb=varMin);
