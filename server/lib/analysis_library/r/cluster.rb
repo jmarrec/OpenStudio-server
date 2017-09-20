@@ -184,9 +184,16 @@ module AnalysisLibrary::R
         @r.command do
           %{
               print("Stopping cluster...")
-              stopCluster(cl)
-              print("Cluster stopped")
-              print("garbage collection")
+              print(paste("cl:",cl))
+              sc <- try(stopCluster(cl))
+              print(paste("class sc:",class(sc)))
+              print(paste("sc:",sc))
+              if (!exists("cl")) {
+                print(paste("cl exists:",cl))
+              }  else {
+                print("Cluster stopped")
+              }              
+              print("garbage collection end of cluster stop")
               temp <- gc()
               print(paste('gc():',temp))
             }
