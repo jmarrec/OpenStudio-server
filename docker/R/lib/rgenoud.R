@@ -12,12 +12,12 @@ maxes <- maxes * 1.0
 print(paste("max:",maxes))
 print(paste("failed_f:",failed_f))
 
-#clusterExport(cl,"objDim")
-#clusterExport(cl,"normtype")
-#clusterExport(cl,"ppower")
+clusterExport(cl,"objDim")
+clusterExport(cl,"normtype")
+clusterExport(cl,"ppower")
 
-#clusterExport(cl,"failed_f")
-#clusterExport(cl,"debug_messages")
+clusterExport(cl,"failed_f")
+clusterExport(cl,"debug_messages")
 
 print(paste("vartypes:",vartypes))
 print(paste("varnames:",varnames))
@@ -41,31 +41,31 @@ varfile <- function(x){
 }
 
 # Export local variables for worker nodes
-# clusterExport(cl,"ruby_command")
-# clusterExport(cl,"rake_command")
-# clusterExport(cl,"analysis_dir")
+clusterExport(cl,"ruby_command")
+clusterExport(cl,"rake_command")
+clusterExport(cl,"analysis_dir")
 clusterExport(cl,"varfile")
-# clusterExport(cl,"varnames")
+clusterExport(cl,"varnames")
 
 # Export some global variables for worker nodes
-# clusterExport(cl,"rails_analysis_id")
-# clusterExport(cl,"rails_sim_root_path")
-# clusterExport(cl,"rails_ruby_bin_dir")
-# clusterExport(cl,"rails_mongodb_name")
-# clusterExport(cl,"rails_mongodb_ip")
-# clusterExport(cl,"rails_run_filename")
-# clusterExport(cl,"rails_create_dp_filename")
-# clusterExport(cl,"rails_root_path")
-# clusterExport(cl,"rails_host")
-# clusterExport(cl,"r_scripts_path")
-# clusterExport(cl,"rails_exit_guideline_14")
+clusterExport(cl,"rails_analysis_id")
+clusterExport(cl,"rails_sim_root_path")
+clusterExport(cl,"rails_ruby_bin_dir")
+clusterExport(cl,"rails_mongodb_name")
+clusterExport(cl,"rails_mongodb_ip")
+clusterExport(cl,"rails_run_filename")
+clusterExport(cl,"rails_create_dp_filename")
+clusterExport(cl,"rails_root_path")
+clusterExport(cl,"rails_host")
+clusterExport(cl,"r_scripts_path")
+clusterExport(cl,"rails_exit_guideline_14")
  clusterEvalQ(cl,varfile(varnames))
 
 # Export functions for worker nodes
 source(paste(r_scripts_path,'create_and_run_datapoint.R',sep='/'))
-# clusterExport(cl,"create_and_run_datapoint")
-# clusterExport(cl,"check_run_flag")
-# clusterExport(cl,"check_guideline14")
+clusterExport(cl,"create_and_run_datapoint")
+clusterExport(cl,"check_run_flag")
+clusterExport(cl,"check_guideline14")
 
 #f <- function(x){
 #  tryCatch(create_and_run_datapoint(x),

@@ -147,7 +147,7 @@ module AnalysisLibrary::R
                 z
               }
 
-              #clusterExport(cl,"init")
+              clusterExport(cl,"init")
               r = clusterCall(cl, "init")
               print(paste("clusterCall returned",r))
             }
