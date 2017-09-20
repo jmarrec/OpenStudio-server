@@ -44,7 +44,7 @@ varfile <- function(x){
 # clusterExport(cl,"ruby_command")
 # clusterExport(cl,"rake_command")
 # clusterExport(cl,"analysis_dir")
-# clusterExport(cl,"varfile")
+clusterExport(cl,"varfile")
 # clusterExport(cl,"varnames")
 
 # Export some global variables for worker nodes
