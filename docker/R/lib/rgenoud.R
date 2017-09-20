@@ -59,7 +59,7 @@ varfile <- function(x){
 # clusterExport(cl,"rails_host")
 # clusterExport(cl,"r_scripts_path")
 # clusterExport(cl,"rails_exit_guideline_14")
-# clusterEvalQ(cl,varfile(varnames))
+ clusterEvalQ(cl,varfile(varnames))
 
 # Export functions for worker nodes
 source(paste(r_scripts_path,'create_and_run_datapoint.R',sep='/'))
@@ -82,7 +82,7 @@ source(paste(r_scripts_path,'create_and_run_datapoint.R',sep='/'))
 f <- function(x){
   try(create_and_run_datapoint(x), silent=TRUE)
 }
-#clusterExport(cl,"f")
+clusterExport(cl,"f")
 
 varMin <- mins
 varMax <- maxes
