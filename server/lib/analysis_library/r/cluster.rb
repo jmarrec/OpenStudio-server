@@ -113,6 +113,8 @@ module AnalysisLibrary::R
           timetaken <- endtime - starttime
           print(paste("R cluster startup time:",timetaken))
 
+          clusterApply(cl, seq_along(cl), function(i) workerID <<- i)
+          clusterApply(cl, seq_along(cl), function(i) print(paste("workerID:",workerID)))
           print(paste("whoami:",system('whoami', intern = TRUE)))
           print(paste("PATH:",Sys.getenv("PATH")))
           print(paste("RUBYLIB:",Sys.getenv("RUBYLIB")))
