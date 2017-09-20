@@ -294,7 +294,8 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
       logger.info("ensure block rgenoud.rb cluster stop")
       dir_path = "#{APP_CONFIG['sim_root_path']}/analysis_#{@analysis.id}/*"
       logger.info("dir_path: #{dir_path}")
-      logger.info("Analysis Dir contents: #{Dir['#{dir_path}']}")
+      dir_path_out = Dir["#{dir_path}"]
+      logger.info("Analysis Dir contents: #{dir_path_out}")
       # Post process the results and jam into the database
       best_result_json = "#{APP_CONFIG['sim_root_path']}/analysis_#{@analysis.id}/best_result.json"
       if File.exist? best_result_json

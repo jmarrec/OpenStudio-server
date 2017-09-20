@@ -89,7 +89,8 @@ module AnalysisLibrary::R
           temp <- gc()
           print(paste('gc():',temp))
           print("Starting cluster...")
-          print(paste("showConnections:",showConnections()))
+          conns <- showConnections()
+          print(paste("showConnections:",conns))
           print(paste("Number of Workers:", nrow(ips)))
           if (nrow(ips) == 0) {
             stop(options("show.error.messages"="No Worker Nodes")," No Worker Nodes")
@@ -121,6 +122,8 @@ module AnalysisLibrary::R
           print(paste("RUBYLIB:",Sys.getenv("RUBYLIB")))
           print(paste("R_HOME:",Sys.getenv("R_HOME")))
           print(paste("R_ENVIRON:",Sys.getenv("R_ENVIRON")))
+          conns <- showConnections()
+          print(paste("showConnections:",conns))
           print("Cluster started")
         }
       end
