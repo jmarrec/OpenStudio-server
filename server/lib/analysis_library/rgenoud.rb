@@ -268,7 +268,9 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
             rails_host = "#{APP_CONFIG['os_server_host_url']}"
             r_scripts_path = "#{APP_CONFIG['r_scripts_path']}"
             rails_exit_guideline_14 = "#{@analysis.exit_on_guideline_14}"
-            source(paste(r_scripts_path,'/rgenoud.R',sep=''))
+            call_rgenoud <- try(source(paste(r_scripts_path,'/rgenoud.R',sep='')))
+            print(paste("class call_rgenoud:",class(call_rgenoud)))
+            print(paste("call_rgenoud:",call_rgenoud))
             print("finished rgenoud.R script")
           }
         end
