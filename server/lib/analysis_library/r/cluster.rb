@@ -89,6 +89,7 @@ module AnalysisLibrary::R
           temp <- gc()
           print(paste('gc():',temp))
           print("Starting cluster...")
+          print(paste("showConnections:",showConnections()))
           print(paste("Number of Workers:", nrow(ips)))
           if (nrow(ips) == 0) {
             stop(options("show.error.messages"="No Worker Nodes")," No Worker Nodes")
