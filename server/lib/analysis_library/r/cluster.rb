@@ -82,6 +82,9 @@ module AnalysisLibrary::R
     def start(ip_addresses)
       @r.command(ips: ip_addresses.to_dataframe) do
         %{
+          print("garbage collection start of cluster")
+          temp <- gc()
+          print(paste('gc():',temp))
           print("Starting cluster...")
           print(paste("Number of Workers:", nrow(ips)))
           if (nrow(ips) == 0) {
@@ -107,11 +110,16 @@ module AnalysisLibrary::R
           timetaken <- endtime - starttime
           print(paste("R cluster startup time:",timetaken))
 
+          clusterApply(cl, seq_along(cl), function(i) workerID <<- i)
+          clusterApply(cl, seq_along(cl), function(i) print(paste("workerID:",workerID)))
+
           print(paste("whoami:",system('whoami', intern = TRUE)))
           print(paste("PATH:",Sys.getenv("PATH")))
           print(paste("RUBYLIB:",Sys.getenv("RUBYLIB")))
           print(paste("R_HOME:",Sys.getenv("R_HOME")))
           print(paste("R_ENVIRON:",Sys.getenv("R_ENVIRON")))
+          conns <- showConnections()
+          print(paste("showConnections:",conns))
           print("Cluster started")
         }
       end
@@ -178,8 +186,18 @@ module AnalysisLibrary::R
         @r.command do
           %{
               print("Stopping cluster...")
-              stopCluster(cl)
-              print("Cluster stopped")
+              print(paste("cl:",cl))
+              sc <- try(stopCluster(cl))
+              print(paste("class sc:",class(sc)))
+              print(paste("sc:",sc))
+              if (!exists("cl")) {
+                print(paste("cl exists:",cl))
+              }  else {
+                print("Cluster stopped")
+              }              
+              print("garbage collection end of cluster stop")
+              temp <- gc()
+              print(paste('gc():',temp))
             }
         end
       end
