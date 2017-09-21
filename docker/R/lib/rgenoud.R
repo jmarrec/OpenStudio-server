@@ -1,5 +1,5 @@
-#clusterEvalQ(cl,library(rjson))
-#clusterEvalQ(cl,library(R.utils))
+clusterEvalQ(cl,library(rjson))
+clusterEvalQ(cl,library(R.utils))
 objDim <- length(objfun)
 
 print(paste("objfun:",objfun))
@@ -59,7 +59,7 @@ clusterExport(cl,"rails_root_path")
 clusterExport(cl,"rails_host")
 clusterExport(cl,"r_scripts_path")
 clusterExport(cl,"rails_exit_guideline_14")
- clusterEvalQ(cl,varfile(varnames))
+clusterEvalQ(cl,varfile(varnames))
 
 # Export functions for worker nodes
 source(paste(r_scripts_path,'create_and_run_datapoint.R',sep='/'))
