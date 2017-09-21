@@ -269,6 +269,7 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
             r_scripts_path = "#{APP_CONFIG['r_scripts_path']}"
             rails_exit_guideline_14 = "#{@analysis.exit_on_guideline_14}"
             call_rgenoud <- try(source(paste(r_scripts_path,'/rgenoud.R',sep='')))
+            print(paste("inherit try-error:",inherits((call_rgenoud,"try-error"))))
             print(paste("class call_rgenoud:",class(call_rgenoud)))
             print(paste("call_rgenoud:",call_rgenoud))
             print("finished rgenoud.R script")
@@ -280,8 +281,9 @@ class AnalysisLibrary::Rgenoud < AnalysisLibrary::Base
         raise 'could not start the cluster (most likely timed out)'
       end
 
-    rescue ScriptError, NoMemoryError, SignalException, StandardError => e
+    rescue SecurityError, ScriptError, NoMemoryError, SignalException, StandardError => e
       log_message = "#{__FILE__} failed with #{e.message}, #{e.backtrace.join("\n")}"
+      logger.info(log_message)
       logger.error log_message
       @analysis.status_message = log_message
       @analysis.save!

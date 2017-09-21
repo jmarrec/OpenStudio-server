@@ -121,6 +121,7 @@ module AnalysisLibrary::R
           conns <- showConnections()
           print(paste("showConnections:",conns))
           print("Cluster started")
+          print(paste("Cluster class",class(cl)))
         }
       end
 
@@ -161,7 +162,7 @@ module AnalysisLibrary::R
           # Check the length and the last result (which should be true)
           c = @r.converse('r')
           result = (c.size == uniq_ips[:worker_ips].size) && c.map { |i| i.last == 'true' }.all?
-        rescue ScriptError, NoMemoryError, SignalException, StandardError => e
+        rescue SecurityError, ScriptError, NoMemoryError, SignalException, StandardError => e
           raise e
         ensure
           stop

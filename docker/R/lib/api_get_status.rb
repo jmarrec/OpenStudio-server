@@ -31,7 +31,7 @@ begin
   a = JSON.parse(a, symbolize_names: true)
   result[:status] = true
   result[:result] = a[:analysis][:run_flag]
-rescue ScriptError, NoMemoryError, SignalException, StandardError => e
+rescue SecurityError, ScriptError, NoMemoryError, SignalException, StandardError => e
   puts "#{__FILE__} Error: #{e.message}:#{e.backtrace.join("\n")}"
   result[:status] = false
   result[:result] = true
