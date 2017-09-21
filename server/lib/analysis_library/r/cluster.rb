@@ -103,7 +103,8 @@ module AnalysisLibrary::R
           starttime <- Sys.time()
           tryCatch({
              res <- evalWithTimeout({
-             cl <- makeForkCluster(nnodes=nrow(ips), master='openstudio.server', outfile="/mnt/openstudio/log/snow.log")
+             #cl <- makeForkCluster(nnodes=nrow(ips), master='openstudio.server', outfile="/mnt/openstudio/log/snow.log")
+             cl <- makePSOCKcluster(ips[,1], master='openstudio.server', outfile="/mnt/openstudio/log/snow.log")
               }, timeout=numunique);
               }, TimeoutException=function(ex) {
                 cat("#{@analysis_id} Timeout\n");
