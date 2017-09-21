@@ -100,7 +100,7 @@ begin
     end
   end
 
-rescue => e
+rescue SecurityError, ScriptError, NoMemoryError, SignalException, StandardError => e
   result[:status] = false
   puts "#{__FILE__} Error: #{e.message}:#{e.backtrace.join("\n")}"
 ensure
