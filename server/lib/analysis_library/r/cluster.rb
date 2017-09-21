@@ -117,6 +117,7 @@ module AnalysisLibrary::R
 
           clusterApply(cl, seq_along(cl), function(i) workerID <<- i)
           clusterApply(cl, seq_along(cl), function(i) print(paste("workerID:",workerID)))
+
           print(paste("whoami:",system('whoami', intern = TRUE)))
           print(paste("PATH:",Sys.getenv("PATH")))
           print(paste("RUBYLIB:",Sys.getenv("RUBYLIB")))
@@ -125,6 +126,7 @@ module AnalysisLibrary::R
           conns <- showConnections()
           print(paste("showConnections:",conns))
           print("Cluster started")
+          print(paste("Cluster class",class(cl)))
         }
       end
 
@@ -165,7 +167,7 @@ module AnalysisLibrary::R
           # Check the length and the last result (which should be true)
           c = @r.converse('r')
           result = (c.size == uniq_ips[:worker_ips].size) && c.map { |i| i.last == 'true' }.all?
-        rescue => e
+        rescue SecurityError, ScriptError, NoMemoryError, SignalException, StandardError => e
           raise e
         ensure
           stop
@@ -186,29 +188,42 @@ module AnalysisLibrary::R
     end
 
     def stop
-      if @started
-        @r.command do
-          %{
-              print("Stopping cluster...")
-              print(paste("cl:",cl))
-              sc <- try(stopCluster(cl))
-              print(paste("class sc:",class(sc)))
-              print(paste("sc:",sc))
-              if (!exists("cl")) {
-                print(paste("cl exists:",cl))
-              }  else {
-                print("Cluster stopped")
-              }              
-              print("garbage collection end of cluster stop")
-              temp <- gc()
-              print(paste('gc():',temp))
-            }
+      begin
+        if @started
+          @r.command do
+            %{
+                print("Stopping cluster...")
+                print(paste("cl:",cl))
+                sc <- tryCatch(stopCluster(cl),
+                               error = function(c) "error stop cluster",
+                               warning = function(c) "warning stop cluster",
+                               message = function(c) "message stop cluster",
+                               interrupt = function(c) "interrupt stop cluster" )
+                print(paste("class sc:",class(sc)))
+                print(paste("sc:",sc))
+                if (!exists("cl")) {
+                  print(paste("cl exists:",cl))
+                }  else {
+                  print("Cluster stopped")
+                }              
+                print("garbage collection end of cluster stop")
+                temp <- gc()
+                print(paste('gc():',temp))
+              }
+          end
         end
-      end
 
-      # TODO: how to test if it successfully stopped the cluster
-      @started = false
-      true
+        # TODO: how to test if it successfully stopped the cluster
+        @started = false
+        true
+      rescue ScriptError, NoMemoryError, SignalException, StandardError => e
+        log_message = "#{__FILE__} cluster.stop failed with #{e.message}, #{e.backtrace.join("\n")}"
+        logger.error log_message  
+      end  
+    end
+    
+    def logger
+      Rails.logger
     end
   end
 end

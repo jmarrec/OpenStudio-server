@@ -153,16 +153,18 @@ print(paste("whoami:", whoami))
 #Rlog[grep('vartypes:',Rlog)]
 #Rlog[grep('varnames:',Rlog)]
 #Rlog[grep('<=',Rlog)]
-print(paste("results:",results))
-print(paste("popsize:",results$pop.size))
-print(paste("peakgeneration:",results$peakgeneration))
-print(paste("generations:",results$generations))
-print(paste("gradients:",results$gradients))
-print(paste("par:",results$par))
-print(paste("value:",results$value))
-flush.console()
-results_filename <- paste(analysis_dir,'/results.R',sep='')
-save(results, file=results_filename)
+if (!is.null(results)) {
+  print(paste("results:",results))
+  print(paste("popsize:",results$pop.size))
+  print(paste("peakgeneration:",results$peakgeneration))
+  print(paste("generations:",results$generations))
+  print(paste("gradients:",results$gradients))
+  print(paste("par:",results$par))
+  print(paste("value:",results$value))
+  flush.console()
+  results_filename <- paste(analysis_dir,'/results.R',sep='')
+  save(results, file=results_filename)
+}
 bestresults_filename <- paste(analysis_dir,'/best_result.json',sep='')
 if (!file.exists(bestresults_filename) && !is.null(results$par)) {
   #write final params to json file
