@@ -130,6 +130,9 @@ genoud_out <- tryCatch(results <- genoud(fn=f, nvars=length(varMin), gr=vectorGr
          warning = function(c) "warning genoud",
          message = function(c) "message genoud",
          interrupt = function(c) "interrupt genoud" )
+print(paste("cl():",print(cl)))
+conns <- showConnections()
+print(paste("showConnections:",conns))
 print("stopCluster()")
 sc <- tryCatch(stopCluster(cl),
                error = function(c) "error stop cluster",
