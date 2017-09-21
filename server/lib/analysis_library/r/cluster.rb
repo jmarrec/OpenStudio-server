@@ -189,7 +189,11 @@ module AnalysisLibrary::R
             %{
                 print("Stopping cluster...")
                 print(paste("cl:",cl))
-                sc <- try(stopCluster(cl))
+                sc <- tryCatch(stopCluster(cl),
+                               error = function(c) "error stop cluster",
+                               warning = function(c) "warning stop cluster",
+                               message = function(c) "message stop cluster",
+                               interrupt = function(c) "interrupt stop cluster" )
                 print(paste("class sc:",class(sc)))
                 print(paste("sc:",sc))
                 if (!exists("cl")) {
