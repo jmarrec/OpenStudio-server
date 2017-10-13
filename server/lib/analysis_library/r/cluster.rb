@@ -101,7 +101,8 @@ module AnalysisLibrary::R
           starttime <- Sys.time()
           tryCatch({
              res <- evalWithTimeout({
-             cl <- makePSOCKcluster(ips[,1], master='openstudio.server', outfile="/mnt/openstudio/log/snow.log")
+             #cl <- makePSOCKcluster(ips[,1], master='openstudio.server', outfile="/mnt/openstudio/log/snow.log")
+             cl <- makeForkCluster(nnodes=nrow(ips), master='openstudio.server', outfile="/mnt/openstudio/log/snow.log")
               }, timeout=numunique);
               }, TimeoutException=function(ex) {
                 cat("#{@analysis_id} Timeout\n");
@@ -112,7 +113,9 @@ module AnalysisLibrary::R
           endtime <- Sys.time()
           timetaken <- endtime - starttime
           print(paste("R cluster startup time:",timetaken))
-
+          
+          clusterApply(cl, seq_along(cl), function(i) workerID <<- i)
+          clusterApply(cl, seq_along(cl), function(i) print(paste("workerID:",workerID)))
           print(paste("whoami:",system('whoami', intern = TRUE)))
           print(paste("PATH:",Sys.getenv("PATH")))
           print(paste("RUBYLIB:",Sys.getenv("RUBYLIB")))
