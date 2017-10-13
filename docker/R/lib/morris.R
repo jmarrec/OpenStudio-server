@@ -200,6 +200,3 @@ if (nrow(result) > 0) {
 } else {
   print("Results is null")
 }
-print("garbage collection")
-temp <- gc()
-print(paste('gc():',temp))

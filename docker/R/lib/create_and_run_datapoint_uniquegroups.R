@@ -84,9 +84,6 @@ create_and_run_datapoint_uniquegroups <- function(x){
     for (i in 1:objDim) {
       obj[i] <- failed_f
     }
-    print("garbage collection")
-    temp <- gc()
-    print(paste('gc():',temp))
     options(warn=0)
     return(obj)
   } else {
@@ -151,9 +148,6 @@ create_and_run_datapoint_uniquegroups <- function(x){
         print(paste("Json unique groups:",ug," not equal to Analysis unique groups",uniquegroups))
         uniq_filename <- paste(analysis_dir,'/uniquegroups.err',sep='')
         write.table("unique groups", file=uniq_filename, quote=FALSE,row.names=FALSE,col.names=FALSE)
-        print("garbage collection")
-        temp <- gc()
-        print(paste('gc():',temp))
         stop(options("show.error.messages"=TRUE),"unique groups is not equal")
       }
 
@@ -203,9 +197,6 @@ create_and_run_datapoint_uniquegroups <- function(x){
               convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"true",sep='', collapse=','),'}',sep='')
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
-              print("garbage collection")
-              temp <- gc()
-              print(paste('gc():',temp))
               options(warn=0)
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
@@ -222,9 +213,6 @@ create_and_run_datapoint_uniquegroups <- function(x){
               convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"true",sep='', collapse=','),'}',sep='')
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
-              print("garbage collection")
-              temp <- gc()
-              print(paste('gc():',temp))
               options(warn=0)
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
@@ -241,9 +229,6 @@ create_and_run_datapoint_uniquegroups <- function(x){
               convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"true",sep='', collapse=','),'}',sep='')
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
-              print("garbage collection")
-              temp <- gc()
-              print(paste('gc():',temp))
               options(warn=0)
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
@@ -252,9 +237,6 @@ create_and_run_datapoint_uniquegroups <- function(x){
       }
     }
   }
-  print("garbage collection")
-  temp <- gc()
-  print(paste('gc():',temp))
   options(warn=0)
   return(as.numeric(obj))
 }
