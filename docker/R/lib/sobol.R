@@ -113,3 +113,6 @@ print(m)
 
 results_filename <- paste(analysis_dir,'/m.R',sep='')
 save(m, file=results_filename)
+print("garbage collection")
+temp <- gc()
+print(paste('gc():',temp))

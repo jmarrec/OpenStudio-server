@@ -138,3 +138,6 @@ print(paste("whoami:", whoami))
 
 results_filename <- paste(analysis_dir,'/results.R',sep='')
 save(results, file=results_filename)
+print("garbage collection")
+temp <- gc()
+print(paste('gc():',temp))

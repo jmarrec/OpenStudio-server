@@ -80,6 +80,9 @@ create_and_run_datapoint <- function(x){
   #if json$status is FALSE then datapoint status is false
   if (!isTRUE(json$status)) {
     print(paste("json$status is false, RETURNING: ",failed_f))
+    print("garbage collection")
+    temp <- gc()
+    print(paste('gc():',temp))
     options(warn=0)
     return(failed_f)
   } else {
@@ -172,6 +175,9 @@ create_and_run_datapoint <- function(x){
               convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"true",sep='', collapse=','),'}',sep='')
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
               options(warn=0)
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
@@ -188,6 +194,9 @@ create_and_run_datapoint <- function(x){
               convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"true",sep='', collapse=','),'}',sep='')
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
               options(warn=0)
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
@@ -204,6 +213,9 @@ create_and_run_datapoint <- function(x){
               convergenceflag <- paste('{',paste('"',"exit_on_guideline_14",'"',': ',"true",sep='', collapse=','),'}',sep='')
               write_filename <- paste(analysis_dir,'/convergence_flag.json',sep='')
               write(convergenceflag, file=write_filename)
+              print("garbage collection")
+              temp <- gc()
+              print(paste('gc():',temp))
               options(warn=0)
               stop(options("show.error.messages"=FALSE),"exit_on_guideline_14")
             }
@@ -212,6 +224,9 @@ create_and_run_datapoint <- function(x){
       }
     }
   }
+  print("garbage collection")
+  temp <- gc()
+  print(paste('gc():',temp))
   options(warn=0)
   return(as.numeric(obj))
 }
