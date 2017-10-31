@@ -27,6 +27,7 @@ bin/delayed_job -i worker_2 stop && bin/delayed_job -i worker_2 --queue=simulati
 ```
 # All in one command
 bin/delayed_job -i server stop && bin/delayed_job -i server --queue=analyses,background start && bin/delayed_job -i worker_1 stop && bin/delayed_job -i worker_1 --queue=simulations start
+bin/delayed_job -i server stop && bin/delayed_job -i worker_1 stop && bin/delayed_job -i worker_2 stop
 ```
 
 For development in the foreground
